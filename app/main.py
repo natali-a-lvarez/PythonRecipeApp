@@ -16,10 +16,22 @@ def create_recipe():
     data = request.json
     new_recipe = Recipe(name=data['name'], ingredients=data['ingredients'], instructions=data['instructions'])
 
+    # adding it to our model
     db.session.add(new_recipe)
     db.session.commit()
     return jsonify({"message": "Recipe created successfully"})
 
+#update recipe by ID
+@app.route('/recipes/<int:id>', methods=['PUT'])
+def update_recipe(id):
+    recipe = Recipe.query.get_or_404(id)
+    data = request.json
+    recipe.name = data['name']
+    recipe.ingredients = data['ingredients']
+    recipe.insturctions = data['instructions']
+
+    db.session.commit()
+    return jsonify({"message": "Recipe updated successfuly!"})
 
 if __name__ == "__main__":
     with app.app_context():
