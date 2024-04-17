@@ -11,7 +11,7 @@ def get_recipes():
     json_recipes = list(map(lambda x: x.to_json(), recipes))
     return jsonify({"recipes": json_recipes}), 200
 
-# Get by ID
+# GET by ID
 @app.route('/recipes/<int:id>', methods=["GET"])
 def get_recipe(id):
     recipe = Recipe.query.get_or_404(id)
@@ -21,7 +21,7 @@ def get_recipe(id):
     
     return jsonify(recipe.to_json()), 200 
 
-# ADD a recipe
+# Creaate a recipe
 @app.route('/recipes', methods=['POST'])
 def create_recipe():
     data = request.json
@@ -32,7 +32,7 @@ def create_recipe():
     db.session.commit()
     return jsonify({"message": "Recipe created successfully"})
 
-#update recipe by ID
+# Update recipe by ID
 @app.route('/recipes/<int:id>', methods=['PUT'])
 def update_recipe(id):
     recipe = Recipe.query.get_or_404(id)
@@ -44,6 +44,7 @@ def update_recipe(id):
     db.session.commit()
     return jsonify({"message": "Recipe updated successfuly!"})
 
+# Delte recipe by ID
 @app.route('/recipes/<int:id>', methods=['DELETE'])
 def delete_recipe(id):
     recipe = Recipe.query.get_or_404(id)
