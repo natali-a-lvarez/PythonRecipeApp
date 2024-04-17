@@ -9,8 +9,19 @@ def get_recipes():
     recipes = Recipe.query.all()
     # converting to json since it is an object
     json_recipes = list(map(lambda x: x.to_json(), recipes))
-    return jsonify({"recipes": json_recipes})
+    return jsonify({"recipes": json_recipes}), 200
 
+# Get by ID
+@app.route('/recipes/<int:id>', methods=["GET"])
+def get_recipe(id):
+    recipe = Recipe.query.get_or_404(id)
+
+    if not recipe:
+        return jsonify({"message": "Recipe not found!"}), 404
+    
+    return jsonify(recipe.to_json()), 200 
+
+# ADD a recipe
 @app.route('/recipes', methods=['POST'])
 def create_recipe():
     data = request.json
