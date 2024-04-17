@@ -11,6 +11,15 @@ def get_recipes():
     json_recipes = list(map(lambda x: x.to_json(), recipes))
     return jsonify({"recipes": json_recipes})
 
+@app.route('/recipes', methods=['POST'])
+def create_recipe():
+    data = request.json
+    new_recipe = Recipe(name=data['name'], ingredients=data['ingredients'], instructions=data['instructions'])
+
+    db.session.add(new_recipe)
+    db.session.commit()
+    return jsonify({"message": "Recipe created successfully"})
+
 
 if __name__ == "__main__":
     with app.app_context():
