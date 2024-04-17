@@ -33,6 +33,16 @@ def update_recipe(id):
     db.session.commit()
     return jsonify({"message": "Recipe updated successfuly!"})
 
+@app.route('/recipes/<int:id>', methods=['DELETE'])
+def delete_recipe(id):
+    recipe = Recipe.query.get_or_404(id)
+
+    # delete found recipe
+    db.session.delete(recipe)
+    db.session.commit()
+    return jsonify({"message": "Recipe deleted successfully!"})
+
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
